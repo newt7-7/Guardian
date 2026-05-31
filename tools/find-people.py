@@ -9,14 +9,16 @@ Modes:
 
 Usage:
   python3 find-people.py linkedin "security engineer" --limit 20
-  python3 find-people.py emails example.com
-  python3 find-people.py full "data protection officer"
+  python3 find-people.py emails example.com --export
+  python3 find-people.py emails example.com --limit 50
 """
 
 import sys
 import re
 import time
-from urllib.parse import quote_plus
+import json
+import os
+from datetime import datetime
 
 try:
     from ddgs import DDGS
@@ -32,6 +34,27 @@ SOCIAL_PATTERNS = {
 }
 
 EMAIL_PATTERN = r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"
+LOG_DIR = os.path.join(os.path.dirname(__file__), "logs")
+
+
+def ensure_log_dir():
+    os.makedirs(LOG_DIR, exist_ok=True)
+
+
+def load_log():
+    path = os.path.join(LOG_DIR, "emails.json")
+    if os.path.exists(path):
+        with open(path) as f:
+            return json.load(f)
+    return {}
+
+
+def save_log(data):
+    ensure_log_dir()
+    path = os.path.join(LOG_DIR, "emails.json")
+    with open(path, "w") as f:
+        json.dump(data, f, indent=2)
+    print(f"\n  Saved to {path}")
 
 
 def find_socials(text):
@@ -75,7 +98,6 @@ def search_linkedin(query, limit=15):
                     print(f"  {'':35s} socials: {social_str}")
 
                 time.sleep(0.3)
-
     except Exception as e:
         print(f"\n  Error: {e}")
 
@@ -83,7 +105,7 @@ def search_linkedin(query, limit=15):
     return results
 
 
-def search_emails(domain, limit=20):
+def search_emails(domain, limit=20, export=False):
     dork = f'site:{domain} "{domain}" email OR contact'
     found_emails = set()
     results = []
@@ -101,25 +123,50 @@ def search_emails(domain, limit=20):
                 for e in emails:
                     if e.endswith(domain) and e not in found_emails:
                         found_emails.add(e)
-                        results.append({
+                        entry = {
                             "email": e,
                             "source": r.get("href", ""),
                             "context": r.get("title", ""),
-                        })
+                            "found_at": datetime.now().isoformat(),
+                        }
+                        results.append(entry)
                         print(f"  {e:40s} {r.get('title', '')[:50]}")
 
                 time.sleep(0.3)
-
     except Exception as e:
         print(f"\n  Error: {e}")
 
     print(f"\n  Found {len(results)} email addresses")
+
+    if export and results:
+        log = load_log()
+        if domain not in log:
+            log[domain] = []
+        existing = {e["email"] for e in log[domain]}
+        new_count = 0
+        for e in results:
+            if e["email"] not in existing:
+                log[domain].append(e)
+                new_count += 1
+        save_log(log)
+        print(f"  ({new_count} new, {len(log[domain])} total for {domain})")
+
     return results
 
 
-def full_search(query, limit=15):
-    profiles = search_linkedin(query, limit=limit)
-    return profiles
+def list_log():
+    log = load_log()
+    if not log:
+        print("\n  No emails logged yet.")
+        return
+    total = 0
+    print(f"\n  {'Domain':25s} {'Count':6s} {'Last found'}")
+    print(f"  {'-'*25} {'-'*6} {'-'*20}")
+    for domain, entries in sorted(log.items()):
+        total += len(entries)
+        last = entries[-1]["found_at"][:10] if entries else "—"
+        print(f"  {domain:25s} {len(entries):6d}  {last}")
+    print(f"\n  Total: {total} emails across {len(log)} domains")
 
 
 if __name__ == "__main__":
@@ -129,8 +176,14 @@ if __name__ == "__main__":
         print(__doc__)
         sys.exit(1)
 
+    if args[0] == "list":
+        list_log()
+        sys.exit(0)
+
     mode = args[0]
-    limit = 15
+    limit = 20
+    export = "--export" in args
+
     if "--limit" in args:
         idx = args.index("--limit")
         if idx + 1 < len(args):
@@ -142,9 +195,9 @@ if __name__ == "__main__":
     if mode == "linkedin" and len(args) >= 2:
         search_linkedin(args[1], limit=limit)
     elif mode == "emails" and len(args) >= 2:
-        search_emails(args[1], limit=limit)
+        search_emails(args[1], limit=limit, export=export)
     elif mode == "full" and len(args) >= 2:
-        full_search(args[1], limit=limit)
+        search_linkedin(args[1], limit=limit)
     else:
-        print(f"Usage: python3 find-people.py <mode> <query> [--limit N]")
-        print("Modes: linkedin, emails, full")
+        print(f"Usage: python3 find-people.py <mode> <query> [--limit N] [--export]")
+        print("Modes: linkedin, emails, full, list")
