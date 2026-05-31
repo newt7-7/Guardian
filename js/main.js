@@ -65,19 +65,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  document.querySelectorAll('.portal-card a[href="#"]').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const text = link.textContent.trim();
-      if (text.includes('Browse')) {
-        alert('Resource library access requires authentication. This demo would redirect to a secure login page.');
-      } else if (text.includes('Report')) {
-        alert('Incident reporting requires an active account. This demo would connect to our 24/7 response system.');
-      } else if (text.includes('Forgot')) {
-        alert('Password reset functionality would send a secure reset link to your registered email address.');
-      } else if (text.includes('Request Access')) {
-        alert('Account registration requires verification. This demo would redirect to a secure registration form.');
-      }
-    });
-  });
+
 });

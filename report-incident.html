@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Incident — Guardian</title>
+  <meta name="description" content="Report a security incident to Guardian's 24/7 incident response team.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <div class="shield">🛡️</div>
+        Guardian
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="newsroom.html">Newsroom</a></li>
+        <li><a href="community.html">Community</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="client-portal.html" class="nav-cta">Client Portal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="breadcrumbs">
+    <div class="container">
+      <a href="index.html">Home</a> <span class="separator">→</span> <a href="client-portal.html">Client Portal</a> <span class="separator">→</span> <span>Report Incident</span>
+    </div>
+  </div>
+
+  <section style="padding: 100px 0;">
+    <div class="container">
+      <div style="max-width: 640px; margin: 0 auto;">
+        <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: var(--radius); padding: 24px 32px; margin-bottom: 32px; display: flex; gap: 16px; align-items: flex-start;">
+          <div style="font-size: 1.5rem; flex-shrink: 0;">🚨</div>
+          <div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; color: #ef4444;">Emergency Contact</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">If this is an active security emergency, call our 24/7 hotline immediately: <strong style="color: var(--text);">+1 (888) 555-0199</strong></p>
+          </div>
+        </div>
+
+        <div class="portal-card" style="background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px;">
+          <div style="text-align: center; margin-bottom: 32px;">
+            <div style="font-size: 2.5rem; margin-bottom: 16px;">🛡️</div>
+            <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 8px;">Report a Security Incident</h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">Provide details about the incident below. Our response team will be notified immediately.</p>
+          </div>
+          <form onsubmit="event.preventDefault(); alert('Your incident report has been submitted. Our response team has been notified and will contact you within 15 minutes.');">
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label for="incident-name">Your Name</label>
+              <input type="text" id="incident-name" placeholder="John Doe" required>
+            </div>
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label for="incident-email">Email Address</label>
+              <input type="email" id="incident-email" placeholder="you@company.com" required>
+            </div>
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label for="incident-urgency">Urgency Level</label>
+              <select id="incident-urgency" style="padding: 12px 16px; background: var(--primary); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 0.95rem; outline: none; width: 100%;">
+                <option>Critical — Active breach in progress</option>
+                <option>High — Suspicious activity detected</option>
+                <option>Medium — Potential vulnerability found</option>
+                <option>Low — General security inquiry</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 24px;">
+              <label for="incident-desc">Incident Description</label>
+              <textarea id="incident-desc" rows="5" placeholder="Describe what happened, when you noticed it, and any actions taken so far..." required style="padding: 12px 16px; background: var(--primary); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 0.95rem; outline: none; width: 100%; resize: vertical; font-family: inherit;"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit Incident Report →</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>🛡️ Guardian</h3>
+          <p>Empowering Information Leak Protectors with enterprise-grade tools, threat intelligence, and a trusted community dedicated to data security.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="community.html">Forum</a></li>
+            <li><a href="newsroom.html">Newsroom</a></li>
+            <li><a href="client-portal.html">Client Portal</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">GDPR Compliance</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Guardian. All rights reserved.</span>
+        <div class="footer-social">
+          <a href="#" aria-label="Twitter">𝕏</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="GitHub">GH</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
