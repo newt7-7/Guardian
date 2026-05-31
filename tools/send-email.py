@@ -140,8 +140,7 @@ if __name__ == "__main__":
         sys.exit(0)
 
     if args[0] == "send" and len(args) >= 2:
-        target = args[2] if len(args) > 2 else ""
-        domain = target
+        domain = args[1]
         subject = DEFAULT_SUBJECT
         body = DEFAULT_BODY
         dry_run = "--dry-run" in args
